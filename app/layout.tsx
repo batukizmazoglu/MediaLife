@@ -79,6 +79,7 @@ export default function RootLayout({
           <div>
             <NextTopLoader color="#FF9432" showSpinner={false} />
             <Toaster />
+            {/* SessionProvider (Provider) artık AllProviders içinde global olarak kullanılmaktadır. */}
             <AllProviders>
               <main className="min-h-[70vh]">{children}</main>
             </AllProviders>

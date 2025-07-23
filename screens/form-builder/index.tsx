@@ -3,6 +3,8 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { Link } from 'next-view-transitions'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 import { FormFieldType } from '@/types'
 import { defaultFieldConfig } from '@/constants'
@@ -16,11 +18,24 @@ import { FormPreview } from '@/screens/form-preview'
 import { EditFieldDialog } from '@/screens/edit-field-dialog'
 import EmptyListSvg from '@/assets/oc-thinking.svg'
 import Editor from '@/components/editor/editor'
+import { Button } from '@/components/ui/button'
+import FormRenderer from '@/components/components/form-renderer';
 
 export type FormFieldOrGroup = FormFieldType | FormFieldType[]
 
+type FormElement = {
+  name: string;
+  type: string;
+  label: string;
+  placeholder?: string;
+  required?: boolean;
+  variant?: string;
+  options?: any[];
+};
+
 export default function FormBuilder() {
   const isDesktop = useMediaQuery('(min-width: 768px)')
+  const router = useRouter();
 
   const [formFields, setFormFields] = useState<FormFieldOrGroup[]>([])
   const [selectedField, setSelectedField] = useState<FormFieldType | null>(null)
@@ -104,6 +119,38 @@ export default function FormBuilder() {
     setIsDialogOpen(false)
   }
 
+  const handleSaveForm = async (formData: typeof formFields) => {
+    const formName = prompt("Please enter a name for your form:");
+    if (!formName) {
+      toast.error("Form name is required.");
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/forms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formName,
+          json: formData,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save the form.');
+      }
+
+      toast.success("Form saved successfully!");
+      router.push('/admin');
+
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred while saving the form.");
+    }
+  }
+
   const FieldSelectorWithSeparator = ({
     addFormField,
   }: {
@@ -156,6 +203,17 @@ export default function FormBuilder() {
                 key={JSON.stringify(formFields)}
                 formFields={formFields}
               />
+              <div className="mt-8">
+                <h2 className="text-xl font-semibold mb-2">Live Preview</h2>
+                <FormRenderer
+                  formStructure={{
+                    json: formFields.filter(f => typeof f === 'object' && !Array.isArray(f) && 'name' in f) as any as FormElement[],
+                    name: 'Preview Form',
+                    id: 'preview',
+                  }}
+                  onSubmit={() => {}}
+                />
+              </div>
             </div>
           </div>
         )}
@@ -170,6 +228,11 @@ export default function FormBuilder() {
           </div>
         )}
       />
+      {formFields.length > 0 && (
+        <div className="flex justify-center mt-6">
+          <Button onClick={() => handleSaveForm(formFields)}>Save Form</Button>
+        </div>
+      )}
       <EditFieldDialog
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}

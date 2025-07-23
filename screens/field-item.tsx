@@ -144,30 +144,8 @@ export const FieldItem = ({
   }, [formFields, index])
 
   return (
-    <Reorder.Item
-      value={field}
-      id={field.name}
-      initial={{ opacity: 0, y: 30 }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.15 },
-      }}
-      exit={{ opacity: 0, y: 20, transition: { duration: 0.3 } }}
-      whileDrag={{ backgroundColor: '#9ca3af', borderRadius: '12px' }}
-      className={cn('w-full', {
-        'col-span-12': columnCount === 1,
-        'col-span-6': columnCount === 2,
-        'col-span-4': columnCount === 3,
-      })}
-      key={`${field.name}-${columnCount}`}
-    >
-      {/* Rest of your component JSX */}
-      <motion.div
-        layout="position"
-        className="flex items-center gap-3"
-        key={`${field.name}-${columnCount}`}
-      >
+    <div className="flex items-center gap-3" key={`${field.name}-${columnCount}`}>
+      <motion.div layout="position">
         <div className="flex items-center gap-1 border rounded-xl px-3 py-1.5 w-full">
           <If
             condition={Array.isArray(formFields[index])}
@@ -219,6 +197,6 @@ export const FieldItem = ({
           )}
         />
       </motion.div>
-    </Reorder.Item>
+    </div>
   )
 }

@@ -41,62 +41,73 @@ export const FormFieldList: React.FC<FormFieldListProps> = ({
 
   return (
     <div className="mt-3 lg:mt-0">
-      <Reorder.Group
-        axis="y"
-        onReorder={setFormFields}
-        values={formFields}
-        className="flex flex-col gap-1"
-      >
-        {formFields.map((item, index) => (
-          <Reorder.Item
-            key={
-              Array.isArray(item)
-                ? item.map((f) => f.name).join('-')
-                : item.name
-            }
-            value={item}
-            className="flex items-center gap-1"
-            whileDrag={{ backgroundColor: '#e5e7eb', borderRadius: '12px' }}
-          >
-            <LuRows2 className="cursor-grab w-4 h-4" />
-            {Array.isArray(item) ? (
-              <Reorder.Group
-                as="ul"
-                axis="x"
-                onReorder={(newOrder) =>
-                  handleHorizontalReorder(index, newOrder)
-                }
-                values={rowTabs[index] || item}
-                className="w-full grid grid-cols-12 gap-1"
-              >
-                <AnimatePresence initial={false}>
-                  {(rowTabs[index] || item).map((field, fieldIndex) => (
-                    <FieldItem
-                      key={field.name}
-                      index={index}
-                      subIndex={fieldIndex}
-                      field={field}
-                      formFields={formFields}
-                      setFormFields={setFormFields}
-                      updateFormField={updateFormField}
-                      openEditDialog={openEditDialog}
-                    />
-                  ))}
-                </AnimatePresence>
-              </Reorder.Group>
+      <div className="flex flex-col gap-1">
+        <Reorder.Group
+          axis="y"
+          onReorder={setFormFields}
+          values={formFields}
+        >
+          {formFields.map((item, index) => (
+            Array.isArray(item) ? (
+              <div key={item.map((f) => f.name).join('-')} className="flex items-center gap-1">
+                <Reorder.Item
+                  value={item}
+                  whileDrag={{ backgroundColor: '#e5e7eb', borderRadius: '12px' }}
+                >
+                  <LuRows2 className="cursor-grab w-4 h-4" />
+                  <div className="w-full grid grid-cols-12 gap-1">
+                    <Reorder.Group
+                      as="ul"
+                      axis="x"
+                      onReorder={(newOrder) => handleHorizontalReorder(index, newOrder)}
+                      values={rowTabs[index] || item}
+                    >
+                      <AnimatePresence initial={false}>
+                        {(rowTabs[index] || item).map((field, fieldIndex) => (
+                          <Reorder.Item
+                            key={field.name}
+                            value={field}
+                            whileDrag={{ backgroundColor: '#e5e7eb', borderRadius: '12px' }}
+                          >
+                            <div className="w-full col-span-12">
+                              <FieldItem
+                                index={index}
+                                subIndex={fieldIndex}
+                                field={field}
+                                formFields={formFields}
+                                setFormFields={setFormFields}
+                                updateFormField={updateFormField}
+                                openEditDialog={openEditDialog}
+                              />
+                            </div>
+                          </Reorder.Item>
+                        ))}
+                      </AnimatePresence>
+                    </Reorder.Group>
+                  </div>
+                </Reorder.Item>
+              </div>
             ) : (
-              <FieldItem
-                field={item}
-                index={index}
-                formFields={formFields}
-                setFormFields={setFormFields}
-                updateFormField={updateFormField}
-                openEditDialog={openEditDialog}
-              />
-            )}
-          </Reorder.Item>
-        ))}
-      </Reorder.Group>
+              <div key={item.name} className="flex items-center gap-1">
+                <Reorder.Item
+                  value={item}
+                  whileDrag={{ backgroundColor: '#e5e7eb', borderRadius: '12px' }}
+                >
+                  <LuRows2 className="cursor-grab w-4 h-4" />
+                  <FieldItem
+                    field={item}
+                    index={index}
+                    formFields={formFields}
+                    setFormFields={setFormFields}
+                    updateFormField={updateFormField}
+                    openEditDialog={openEditDialog}
+                  />
+                </Reorder.Item>
+              </div>
+            )
+          ))}
+        </Reorder.Group>
+      </div>
     </div>
   )
 }

@@ -114,28 +114,66 @@ const FileSvgDraw = () => {
   )
 }
 
-export const renderFormField = (field: FormFieldType, form: any) => {
-  const [checked, setChecked] = useState<boolean>(field.checked)
-  const [value, setValue] = useState<any>(field.value)
-  const [selectedValues, setSelectedValues] = useState<string[]>(['React'])
-  const [tagsValue, setTagsValue] = useState<string[]>([])
-  const [files, setFiles] = useState<File[] | null>(null) // Initialize to null or use [] for an empty array
-  const [sliderValue, setSliderValue] = useState<number[]>([5])
-  const [date, setDate] = useState<Date | undefined>(new Date())
-  const [datetime, setDatetime] = useState<Date | undefined>(new Date())
-  const [smartDatetime, setSmartDatetime] = useState<Date | null>()
-  const [countryName, setCountryName] = useState<string>('')
-  const [stateName, setStateName] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const [rating, setRating] = useState<number>(0)
+export const RenderFormFieldWithState = (props: { field: FormFieldType, form: any }) => {
+  const { field, form } = props;
+  const [checked, setChecked] = useState<boolean>(field.checked);
+  const [value, setValue] = useState<any>(field.value);
+  const [selectedValues, setSelectedValues] = useState<string[]>(Array.isArray(field.value) ? field.value : []);
+  const [tagsValue, setTagsValue] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[] | null>(null);
+  const [sliderValue, setSliderValue] = useState<number[]>([5]);
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  const [datetime, setDatetime] = useState<Date | undefined>(new Date());
+  const [smartDatetime, setSmartDatetime] = useState<Date | null>();
+  const [countryName, setCountryName] = useState<string>('');
+  const [stateName, setStateName] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [rating, setRating] = useState<number>(0);
   const [creditCard, setCreditCard] = useState<CreditCardValue>({
     cardholderName: '',
     cardNumber: '',
     expiryMonth: '',
     expiryYear: '',
     cvv: '',
-  })
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+  });
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  return <div key={field.name}>{renderFormField(field, form, {
+    checked, setChecked,
+    value, setValue,
+    selectedValues, setSelectedValues,
+    tagsValue, setTagsValue,
+    files, setFiles,
+    sliderValue, setSliderValue,
+    date, setDate,
+    datetime, setDatetime,
+    smartDatetime, setSmartDatetime,
+    countryName, setCountryName,
+    stateName, setStateName,
+    password, setPassword,
+    rating, setRating,
+    creditCard, setCreditCard,
+    canvasRef
+  })}</div>;
+};
+
+export const renderFormField = (field: FormFieldType, form: any, state: any) => {
+  const {
+    checked, setChecked,
+    value, setValue,
+    selectedValues, setSelectedValues,
+    tagsValue, setTagsValue,
+    files, setFiles,
+    sliderValue, setSliderValue,
+    date, setDate,
+    datetime, setDatetime,
+    smartDatetime, setSmartDatetime,
+    countryName, setCountryName,
+    stateName, setStateName,
+    password, setPassword,
+    rating, setRating,
+    creditCard, setCreditCard,
+    canvasRef
+  } = state;
 
   const dropZoneConfig = {
     maxFiles: 5,
@@ -318,7 +356,7 @@ export const renderFormField = (field: FormFieldType, form: any) => {
               <FileUploaderContent>
                 {files &&
                   files.length > 0 &&
-                  files.map((file, i) => (
+                  files.map((file: File, i: number) => (
                     <FileUploaderItem key={i} index={i}>
                       <Paperclip className="h-4 w-4 stroke-current" />
                       <span>{file.name}</span>
@@ -398,7 +436,7 @@ export const renderFormField = (field: FormFieldType, form: any) => {
           <FormLabel>{field.label}</FormLabel> {field.required && '*'}
           <FormControl>
             <MultiSelector
-              values={selectedValues}
+              values={Array.isArray(selectedValues) ? selectedValues : []}
               onValuesChange={(newValues) => {
                 setSelectedValues(newValues)
                 form.setValue(field.name, newValues, {

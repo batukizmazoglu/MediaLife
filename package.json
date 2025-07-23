@@ -49,6 +49,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.0.0",
     "date-fns": "^3.6.0",
+    "dotenv": "^17.2.0",
     "framer-motion": "^11.5.6",
     "input-otp": "^1.2.4",
     "js-beautify": "^1.15.1",

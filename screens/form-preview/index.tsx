@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 
-import { renderFormField } from '@/screens/render-form-field'
+import { RenderFormFieldWithState } from '@/screens/render-form-field'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Form, FormField, FormItem, FormControl } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
@@ -53,12 +53,7 @@ const renderFormFields = (fields: FormFieldOrGroup[], form: any) => {
                   className={`col-span-${getColSpan(fieldOrGroup.length)}`}
                 >
                   <FormControl>
-                    {React.cloneElement(
-                      renderFormField(field, form) as React.ReactElement,
-                      {
-                        ...formField,
-                      },
-                    )}
+                    <RenderFormFieldWithState field={field} form={form} />
                   </FormControl>
                 </FormItem>
               )}
@@ -75,12 +70,7 @@ const renderFormFields = (fields: FormFieldOrGroup[], form: any) => {
           render={({ field: formField }) => (
             <FormItem className="col-span-12">
               <FormControl>
-                {React.cloneElement(
-                  renderFormField(fieldOrGroup, form) as React.ReactElement,
-                  {
-                    ...formField,
-                  },
-                )}
+                <RenderFormFieldWithState field={fieldOrGroup} form={form} />
               </FormControl>
             </FormItem>
           )}

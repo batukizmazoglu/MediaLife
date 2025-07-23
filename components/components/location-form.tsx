@@ -24,7 +24,7 @@ const FormSchema = z.object({
   ]),
 })
 
-export function LocationForm() {
+export function LocationForm({ asForm = true }: { asForm?: boolean }) {
   const [countryName, setCountryName] = useState<string>('')
   const [stateName, setStateName] = useState<string>('')
 
@@ -40,42 +40,80 @@ export function LocationForm() {
     )
   }
 
-  return (
+  const formContent = (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        <FormField
-          control={form.control}
-          name="location"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <div>
-                <FormLabel>Country Selector</FormLabel>
-              </div>
-              <LocationSelector
-                onCountryChange={(country) => {
-                  setCountryName(country?.name || '')
-                  form.setValue(field.name, [
-                    country?.name || '',
-                    stateName || '',
-                  ])
-                }}
-                onStateChange={(state) => {
-                  setStateName(state?.name || '')
-                  form.setValue(field.name, [
-                    countryName || '',
-                    state?.name || '',
-                  ])
-                }}
-              />
-              <FormDescription>
-                Please select state after selecting your country
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
+      {asForm ? (
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <div>
+                  <FormLabel>Country Selector</FormLabel>
+                </div>
+                <LocationSelector
+                  onCountryChange={(country) => {
+                    setCountryName(country?.name || '')
+                    form.setValue(field.name, [
+                      country?.name || '',
+                      stateName || '',
+                    ])
+                  }}
+                  onStateChange={(state) => {
+                    setStateName(state?.name || '')
+                    form.setValue(field.name, [
+                      countryName || '',
+                      state?.name || '',
+                    ])
+                  }}
+                />
+                <FormDescription>
+                  Please select state after selecting your country
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Submit</Button>
+        </form>
+      ) : (
+        <div className="w-2/3 space-y-6">
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <div>
+                  <FormLabel>Country Selector</FormLabel>
+                </div>
+                <LocationSelector
+                  onCountryChange={(country) => {
+                    setCountryName(country?.name || '')
+                    form.setValue(field.name, [
+                      country?.name || '',
+                      stateName || '',
+                    ])
+                  }}
+                  onStateChange={(state) => {
+                    setStateName(state?.name || '')
+                    form.setValue(field.name, [
+                      countryName || '',
+                      state?.name || '',
+                    ])
+                  }}
+                />
+                <FormDescription>
+                  Please select state after selecting your country
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+      )}
     </Form>
   )
+
+  return formContent
 }
