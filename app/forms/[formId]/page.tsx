@@ -305,8 +305,8 @@ function FormRenderer({ formStructure, files, setFiles, dropZoneConfig, countryN
 }
 
 // --- Main Page Component ---
-export default function PublicFormPage({ params }: { params: Promise<{ formId: string }> }) {
-  const { formId } = React.use(params);
+export default function PublicFormPage({ params }: { params: { formId: string } }) {
+  const { formId } = params;
   const [formStructure, setFormStructure] = useState<FormStructure | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);

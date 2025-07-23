@@ -16,12 +16,8 @@ import {
 import If from '@/components/ui/if'
 import { useSidebar } from '@/components/ui/sidebar' // Check this import
 
-export default function Page({
-  params,
-}: {
-  params: Promise<{ slug: string; category: string }>
-}) {
-  const { slug, category } = use(params)
+export default function Page({ params }: { params: { slug: string; category: string } }) {
+  const { slug, category } = params
   const pathname = slug
 
   const { toggleSidebar } = useSidebar()

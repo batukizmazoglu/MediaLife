@@ -13,8 +13,8 @@ import {
 } from '@/components/ui/breadcrumb'
 import { useSidebar } from '@/components/ui/sidebar' // Check this import
 
-export default function Page({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params)
+export default function Page({ params }: { params: { slug: string } }) {
+  const { slug } = params
   const pathname = slug
 
   const { toggleSidebar } = useSidebar()
