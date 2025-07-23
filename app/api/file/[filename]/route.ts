@@ -4,10 +4,10 @@ import path from 'path'
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ filename: string }> },
+  { params }: { params: { filename: string } },
 ) {
   try {
-    const { filename } = await params
+    const { filename } = params
     // Validate filename to prevent directory traversal attacks
     if (!filename.match(/^[a-zA-Z0-9-]+$/)) {
       return NextResponse.json({ error: 'Invalid filename' }, { status: 400 })
