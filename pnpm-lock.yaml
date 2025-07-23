@@ -173,6 +173,9 @@ importers:
       prism-react-renderer:
         specifier: ^2.4.0
         version: 2.4.1(react@19.1.0)
+      prisma:
+        specifier: ^6.12.0
+        version: 6.12.0(typescript@5.7.3)
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -7572,13 +7575,10 @@ snapshots:
   '@prisma/config@6.12.0':
     dependencies:
       jiti: 2.4.2
-    optional: true
 
-  '@prisma/debug@6.12.0':
-    optional: true
+  '@prisma/debug@6.12.0': {}
 
-  '@prisma/engines-version@6.12.0-15.8047c96bbd92db98a2abc7c9323ce77c02c89dbc':
-    optional: true
+  '@prisma/engines-version@6.12.0-15.8047c96bbd92db98a2abc7c9323ce77c02c89dbc': {}
 
   '@prisma/engines@6.12.0':
     dependencies:
@@ -7586,19 +7586,16 @@ snapshots:
       '@prisma/engines-version': 6.12.0-15.8047c96bbd92db98a2abc7c9323ce77c02c89dbc
       '@prisma/fetch-engine': 6.12.0
       '@prisma/get-platform': 6.12.0
-    optional: true
 
   '@prisma/fetch-engine@6.12.0':
     dependencies:
       '@prisma/debug': 6.12.0
       '@prisma/engines-version': 6.12.0-15.8047c96bbd92db98a2abc7c9323ce77c02c89dbc
       '@prisma/get-platform': 6.12.0
-    optional: true
 
   '@prisma/get-platform@6.12.0':
     dependencies:
       '@prisma/debug': 6.12.0
-    optional: true
 
   '@radix-ui/number@1.1.0': {}
 
@@ -11541,7 +11538,6 @@ snapshots:
       '@prisma/engines': 6.12.0
     optionalDependencies:
       typescript: 5.7.3
-    optional: true
 
   prop-types@15.8.1:
     dependencies:
