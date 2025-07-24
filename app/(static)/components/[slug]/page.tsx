@@ -13,7 +13,11 @@ import {
 } from '@/components/ui/breadcrumb'
 import { useSidebar } from '@/components/ui/sidebar' // Check this import
 
-export default function Page({ params }: { params: { slug: string } }) {
+interface ComponentPageProps {
+  params: { slug: string }
+}
+
+export default function Page({ params }: ComponentPageProps) {
   const { slug } = params
   const pathname = slug
 
